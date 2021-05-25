@@ -1,0 +1,51 @@
+﻿<Page x:Class="WpfAppP.T_0._1_.Pages.MenuPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfAppP.T_0._1_.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MenuPage" FontSize="20">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="b_goPLPage" Click="b_goPLPage_Click" Grid.Column="3" Grid.Row="1" Style="{DynamicResource bDefault}" Margin="10">
+                <TextBlock Text="Языки программирования" TextWrapping="Wrap" TextAlignment="Center"/>
+            </Button>
+            <Button x:Name="b_goAuthorPage" Click="b_goAuthorPage_Click" Grid.Column="1" Grid.Row="1" Style="{DynamicResource bDefault}" Margin="10">
+                <TextBlock Text="Авторы" TextWrapping="Wrap" TextAlignment="Center"/>
+            </Button>
+            <Button x:Name="b_goThemePage" Click="b_goThemePage_Click" Grid.Column="0" Grid.Row="1" Style="{DynamicResource bDefault}" Margin="10">
+                <TextBlock Text="Темы" TextWrapping="Wrap" TextAlignment="Center"/>
+            </Button>
+            <Button x:Name="b_goSRPage_Copy" Click="b_goSRPage_Copy_Click"  Grid.Column="0" Grid.Row="0" Style="{DynamicResource bDefault}" Margin="10">
+                <TextBlock Text="Темы" TextWrapping="Wrap" TextAlignment="Center"/>
+            </Button>
+            <Button x:Name="b_goTaskPage" Click="b_goTaskPage_Click"  Grid.Column="1" Grid.Row="0" Style="{DynamicResource bDefault}" Margin="10">
+                <TextBlock Text="Темы" TextWrapping="Wrap" TextAlignment="Center"/>
+            </Button>
+
+        </Grid>
+    </Grid>
+</Page>

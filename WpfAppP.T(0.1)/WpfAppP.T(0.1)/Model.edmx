@@ -1,0 +1,685 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище ProgrammingTasksDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="50" />
+          <Property Name="HeldPost" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Chapter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DataForTesting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="InputData" Type="nchar" MaxLength="10" />
+          <Property Name="OutputData" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="DataForTestingTask">
+          <Key>
+            <PropertyRef Name="TaskID" />
+            <PropertyRef Name="DataForTestingID" />
+          </Key>
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="DataForTestingID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "ProgrammingTasksDB.dbo.FileTask" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="FileTask">
+          <Key>
+            <PropertyRef Name="TaskID" />
+            <PropertyRef Name="FileID" />
+          </Key>
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="FileID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ImageTask">
+          <Key>
+            <PropertyRef Name="TaskID" />
+            <PropertyRef Name="Image" />
+          </Key>
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="Image" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProgrammingLanguage">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SolutionReference">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" />
+          <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ProgrammingLanguageID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Сomment" Type="nvarchar(max)" />
+          <Property Name="ThemeID" Type="int" Nullable="false" />
+          <Property Name="Difficulty" Type="int" />
+          <Property Name="AuthorID" Type="int" />
+          <Property Name="Date" Type="date" />
+        </EntityType>
+        <EntityType Name="Theme">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ChapterID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_DataForTestingTask_DataForTesting">
+          <End Role="DataForTesting" Type="Self.DataForTesting" Multiplicity="1" />
+          <End Role="DataForTestingTask" Type="Self.DataForTestingTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataForTesting">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DataForTestingTask">
+              <PropertyRef Name="DataForTestingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataForTestingTask_Task">
+          <End Role="Task" Type="Self.Task" Multiplicity="1" />
+          <End Role="DataForTestingTask" Type="Self.DataForTestingTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DataForTestingTask">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FileTask_File">
+          <End Role="File" Type="Self.File" Multiplicity="1" />
+          <End Role="FileTask" Type="Self.FileTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="File">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FileTask">
+              <PropertyRef Name="FileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FileTask_Task">
+          <End Role="Task" Type="Self.Task" Multiplicity="1" />
+          <End Role="FileTask" Type="Self.FileTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FileTask">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ImageTask_Image">
+          <End Role="Image" Type="Self.Image" Multiplicity="1" />
+          <End Role="ImageTask" Type="Self.ImageTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Image">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ImageTask">
+              <PropertyRef Name="Image" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ImageTask_Task">
+          <End Role="Task" Type="Self.Task" Multiplicity="1" />
+          <End Role="ImageTask" Type="Self.ImageTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ImageTask">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SolutionReference_ProgrammingLanguage">
+          <End Role="ProgrammingLanguage" Type="Self.ProgrammingLanguage" Multiplicity="1" />
+          <End Role="SolutionReference" Type="Self.SolutionReference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProgrammingLanguage">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SolutionReference">
+              <PropertyRef Name="ProgrammingLanguageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SolutionReference_Task">
+          <End Role="Task" Type="Self.Task" Multiplicity="1" />
+          <End Role="SolutionReference" Type="Self.SolutionReference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SolutionReference">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Author">
+          <End Role="Author" Type="Self.Author" Multiplicity="0..1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="AuthorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Theme">
+          <End Role="Theme" Type="Self.Theme" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Theme">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="ThemeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Theme_Chapter">
+          <End Role="Chapter" Type="Self.Chapter" Multiplicity="1" />
+          <End Role="Theme" Type="Self.Theme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chapter">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Theme">
+              <PropertyRef Name="ChapterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ProgrammingTasksDBModelContainer">
+          <EntitySet Name="Author" EntityType="Self.Author" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chapter" EntityType="Self.Chapter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DataForTesting" EntityType="Self.DataForTesting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DataForTestingTask" EntityType="Self.DataForTestingTask" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="File" EntityType="Self.File" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImageTask" EntityType="Self.ImageTask" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProgrammingLanguage" EntityType="Self.ProgrammingLanguage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SolutionReference" EntityType="Self.SolutionReference" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Theme" EntityType="Self.Theme" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FileTask" EntityType="Self.FileTask" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FileTask].[TaskID] AS [TaskID], 
+    [FileTask].[FileID] AS [FileID]
+    FROM [dbo].[FileTask] AS [FileTask]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_DataForTestingTask_DataForTesting" Association="Self.FK_DataForTestingTask_DataForTesting">
+            <End Role="DataForTesting" EntitySet="DataForTesting" />
+            <End Role="DataForTestingTask" EntitySet="DataForTestingTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataForTestingTask_Task" Association="Self.FK_DataForTestingTask_Task">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="DataForTestingTask" EntitySet="DataForTestingTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FileTask_File" Association="Self.FK_FileTask_File">
+            <End Role="File" EntitySet="File" />
+            <End Role="FileTask" EntitySet="FileTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FileTask_Task" Association="Self.FK_FileTask_Task">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="FileTask" EntitySet="FileTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ImageTask_Image" Association="Self.FK_ImageTask_Image">
+            <End Role="Image" EntitySet="Image" />
+            <End Role="ImageTask" EntitySet="ImageTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ImageTask_Task" Association="Self.FK_ImageTask_Task">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="ImageTask" EntitySet="ImageTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SolutionReference_ProgrammingLanguage" Association="Self.FK_SolutionReference_ProgrammingLanguage">
+            <End Role="ProgrammingLanguage" EntitySet="ProgrammingLanguage" />
+            <End Role="SolutionReference" EntitySet="SolutionReference" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SolutionReference_Task" Association="Self.FK_SolutionReference_Task">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="SolutionReference" EntitySet="SolutionReference" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Author" Association="Self.FK_Task_Author">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Theme" Association="Self.FK_Task_Theme">
+            <End Role="Theme" EntitySet="Theme" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Theme_Chapter" Association="Self.FK_Theme_Chapter">
+            <End Role="Chapter" EntitySet="Chapter" />
+            <End Role="Theme" EntitySet="Theme" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProgrammingTasksDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HeldPost" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Task" Relationship="Self.FK_Task_Author" FromRole="Author" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="Chapter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Theme" Relationship="Self.FK_Theme_Chapter" FromRole="Chapter" ToRole="Theme" />
+        </EntityType>
+        <EntityType Name="DataForTesting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="InputData" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="OutputData" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Task" Relationship="Self.DataForTestingTask" FromRole="DataForTesting" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Task" Relationship="Self.FileTask" FromRole="File" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Task" Relationship="Self.ImageTask" FromRole="Image" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="ProgrammingLanguage">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="SolutionReference" Relationship="Self.FK_SolutionReference_ProgrammingLanguage" FromRole="ProgrammingLanguage" ToRole="SolutionReference" />
+        </EntityType>
+        <EntityType Name="SolutionReference">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProgrammingLanguageID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ProgrammingLanguage" Relationship="Self.FK_SolutionReference_ProgrammingLanguage" FromRole="SolutionReference" ToRole="ProgrammingLanguage" />
+          <NavigationProperty Name="Task" Relationship="Self.FK_SolutionReference_Task" FromRole="SolutionReference" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Сomment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ThemeID" Type="Int32" Nullable="false" />
+          <Property Name="Difficulty" Type="Int32" />
+          <Property Name="AuthorID" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Author" Relationship="Self.FK_Task_Author" FromRole="Task" ToRole="Author" />
+          <NavigationProperty Name="SolutionReference" Relationship="Self.FK_SolutionReference_Task" FromRole="Task" ToRole="SolutionReference" />
+          <NavigationProperty Name="Theme" Relationship="Self.FK_Task_Theme" FromRole="Task" ToRole="Theme" />
+          <NavigationProperty Name="DataForTesting" Relationship="Self.DataForTestingTask" FromRole="Task" ToRole="DataForTesting" />
+          <NavigationProperty Name="Image" Relationship="Self.ImageTask" FromRole="Task" ToRole="Image" />
+          <NavigationProperty Name="File" Relationship="Self.FileTask" FromRole="Task" ToRole="File" />
+        </EntityType>
+        <EntityType Name="Theme">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ChapterID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Chapter" Relationship="Self.FK_Theme_Chapter" FromRole="Theme" ToRole="Chapter" />
+          <NavigationProperty Name="Task" Relationship="Self.FK_Task_Theme" FromRole="Theme" ToRole="Task" />
+        </EntityType>
+        <Association Name="FK_Task_Author">
+          <End Role="Author" Type="Self.Author" Multiplicity="0..1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="AuthorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Theme_Chapter">
+          <End Role="Chapter" Type="Self.Chapter" Multiplicity="1" />
+          <End Role="Theme" Type="Self.Theme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chapter">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Theme">
+              <PropertyRef Name="ChapterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SolutionReference_ProgrammingLanguage">
+          <End Role="ProgrammingLanguage" Type="Self.ProgrammingLanguage" Multiplicity="1" />
+          <End Role="SolutionReference" Type="Self.SolutionReference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProgrammingLanguage">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SolutionReference">
+              <PropertyRef Name="ProgrammingLanguageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SolutionReference_Task">
+          <End Role="Task" Type="Self.Task" Multiplicity="1" />
+          <End Role="SolutionReference" Type="Self.SolutionReference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SolutionReference">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Theme">
+          <End Role="Theme" Type="Self.Theme" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Theme">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="ThemeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="DataForTestingTask">
+          <End Role="DataForTesting" Type="Self.DataForTesting" Multiplicity="*" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+        </Association>
+        <Association Name="ImageTask">
+          <End Role="Image" Type="Self.Image" Multiplicity="*" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+        </Association>
+        <Association Name="FileTask">
+          <End Role="File" Type="Self.File" Multiplicity="*" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="ProgrammingTasksDBEntities4" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Author" EntityType="Self.Author" />
+          <EntitySet Name="Chapter" EntityType="Self.Chapter" />
+          <EntitySet Name="DataForTesting" EntityType="Self.DataForTesting" />
+          <EntitySet Name="File" EntityType="Self.File" />
+          <EntitySet Name="Image" EntityType="Self.Image" />
+          <EntitySet Name="ProgrammingLanguage" EntityType="Self.ProgrammingLanguage" />
+          <EntitySet Name="SolutionReference" EntityType="Self.SolutionReference" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Task" EntityType="Self.Task" />
+          <EntitySet Name="Theme" EntityType="Self.Theme" />
+          <AssociationSet Name="FK_Task_Author" Association="Self.FK_Task_Author">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Theme_Chapter" Association="Self.FK_Theme_Chapter">
+            <End Role="Chapter" EntitySet="Chapter" />
+            <End Role="Theme" EntitySet="Theme" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SolutionReference_ProgrammingLanguage" Association="Self.FK_SolutionReference_ProgrammingLanguage">
+            <End Role="ProgrammingLanguage" EntitySet="ProgrammingLanguage" />
+            <End Role="SolutionReference" EntitySet="SolutionReference" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SolutionReference_Task" Association="Self.FK_SolutionReference_Task">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="SolutionReference" EntitySet="SolutionReference" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Theme" Association="Self.FK_Task_Theme">
+            <End Role="Theme" EntitySet="Theme" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="DataForTestingTask" Association="Self.DataForTestingTask">
+            <End Role="DataForTesting" EntitySet="DataForTesting" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="ImageTask" Association="Self.ImageTask">
+            <End Role="Image" EntitySet="Image" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FileTask" Association="Self.FileTask">
+            <End Role="File" EntitySet="File" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ProgrammingTasksDBModelContainer" CdmEntityContainer="ProgrammingTasksDBEntities4">
+          <EntitySetMapping Name="Author">
+            <EntityTypeMapping TypeName="ProgrammingTasksDBModel.Author">
+              <MappingFragment StoreEntitySet="Author">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="HeldPost" ColumnName="HeldPost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Chapter">
+            <EntityTypeMapping TypeName="ProgrammingTasksDBModel.Chapter">
+              <MappingFragment StoreEntitySet="Chapter">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataForTesting">
+            <EntityTypeMapping TypeName="ProgrammingTasksDBModel.DataForTesting">
+              <MappingFragment StoreEntitySet="DataForTesting">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="InputData" ColumnName="InputData" />
+                <ScalarProperty Name="OutputData" ColumnName="OutputData" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="File">
+            <EntityTypeMapping TypeName="ProgrammingTasksDBModel.File">
+              <MappingFragment StoreEntitySet="File">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Image">
+            <EntityTypeMapping TypeName="ProgrammingTasksDBModel.Image">
+              <MappingFragment StoreEntitySet="Image">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProgrammingLanguage">
+            <EntityTypeMapping TypeName="ProgrammingTasksDBModel.ProgrammingLanguage">
+              <MappingFragment StoreEntitySet="ProgrammingLanguage">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SolutionReference">
+            <EntityTypeMapping TypeName="ProgrammingTasksDBModel.SolutionReference">
+              <MappingFragment StoreEntitySet="SolutionReference">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ProgrammingLanguageID" ColumnName="ProgrammingLanguageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ProgrammingTasksDBModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Task">
+            <EntityTypeMapping TypeName="ProgrammingTasksDBModel.Task">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Сomment" ColumnName="Сomment" />
+                <ScalarProperty Name="ThemeID" ColumnName="ThemeID" />
+                <ScalarProperty Name="Difficulty" ColumnName="Difficulty" />
+                <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Theme">
+            <EntityTypeMapping TypeName="ProgrammingTasksDBModel.Theme">
+              <MappingFragment StoreEntitySet="Theme">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="ChapterID" ColumnName="ChapterID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="DataForTestingTask" TypeName="ProgrammingTasksDBModel.DataForTestingTask" StoreEntitySet="DataForTestingTask">
+            <EndProperty Name="DataForTesting">
+              <ScalarProperty Name="ID" ColumnName="DataForTestingID" />
+            </EndProperty>
+            <EndProperty Name="Task">
+              <ScalarProperty Name="ID" ColumnName="TaskID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ImageTask" TypeName="ProgrammingTasksDBModel.ImageTask" StoreEntitySet="ImageTask">
+            <EndProperty Name="Image">
+              <ScalarProperty Name="ID" ColumnName="Image" />
+            </EndProperty>
+            <EndProperty Name="Task">
+              <ScalarProperty Name="ID" ColumnName="TaskID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FileTask" TypeName="ProgrammingTasksDBModel.FileTask" StoreEntitySet="FileTask">
+            <EndProperty Name="File">
+              <ScalarProperty Name="ID" ColumnName="FileID" />
+            </EndProperty>
+            <EndProperty Name="Task">
+              <ScalarProperty Name="ID" ColumnName="TaskID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,115 @@
+﻿<Page x:Class="WpfAppP.T_0._1_.Pages.PLPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfAppP.T_0._1_.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PLPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="30*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="363*"/>
+                <ColumnDefinition Width="304*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Добавить Язык Программирования" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource tblHeading}" Grid.Row="0"/>
+                <TextBox x:Name="tb_PL" Margin="10" Style="{DynamicResource tbDefault}" Grid.Row="1"/>
+                <Button x:Name="b_go" Content="Сохранить" HorizontalAlignment="Center"  VerticalAlignment="Center" Grid.Row="2" Click="b_go_Click" Style="{DynamicResource bDefault}"/>
+            </Grid>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="9*"/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="10*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Дата добавления" TextWrapping="Wrap" Style="{DynamicResource tblForListCat}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Button x:Name="b_descendingID" Style="{DynamicResource bDefault}" Margin="1" Click="b_descendingID_Click"/>
+                            <Button Grid.Row="1" x:Name="b_ascendingID" Style="{DynamicResource bDefault}" Margin="1" Click="b_ascendingID_Click" />
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Column="1 ">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Название" Style="{DynamicResource tblForListCat}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Button x:Name="b_descending" Style="{DynamicResource bDefault}" Margin="1" Click="b_descending_Click"/>
+                            <Button Grid.Row="1" x:Name="b_ascending" Style="{DynamicResource bDefault}" Margin="1" Click="b_ascending_Click" />
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <TextBox x:Name="tb_search"  Margin="5,5,0,5" TextWrapping="Wrap" TextChanged="tb_search_TextChanged"/>
+                    </Grid>
+                </Grid>
+                <ListBox x:Name="lb_PL" Grid.Row="2" BorderBrush="Black">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Margin="5,5,0,5" Style="{DynamicResource tblForListValue}">
+                                    <Run Text="ID: "/>
+                                    <Run Text="{Binding DI}"/>
+                                    <LineBreak/>
+                                    <Run Text="Название: "/>
+                                    <Run Text="{Binding Title}"/>
+                                </TextBlock>
+                                <Button x:Name="b_edit" Click="b_edit_Click" Grid.Column="1" Content="Изменить" Style="{DynamicResource bDefault}" Margin="5"/>
+                                <Button x:Name="b_delete" Click="b_delete_Click" Grid.Column="2" Content="Удалить" Style="{DynamicResource bDefault}" Margin="5"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

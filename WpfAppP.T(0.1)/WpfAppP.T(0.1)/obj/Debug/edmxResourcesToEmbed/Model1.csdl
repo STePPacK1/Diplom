@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ProgrammingTasksDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Author">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HeldPost" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Task" Relationship="Self.FK_Task_Author" FromRole="Author" ToRole="Task" />
+  </EntityType>
+  <EntityType Name="DataForTesting">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="InputData" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="OutputData" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Task" Relationship="Self.DataForTestingTask" FromRole="DataForTesting" ToRole="Task" />
+  </EntityType>
+  <EntityType Name="ProgrammingLanguage">
+    <Key>
+      <PropertyRef Name="DI" />
+    </Key>
+    <Property Name="DI" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SolutionReference" Relationship="Self.FK_SolutionReference_ProgrammingLanguage" FromRole="ProgrammingLanguage" ToRole="SolutionReference" />
+  </EntityType>
+  <EntityType Name="SolutionReference">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="TaskID" Type="Int32" Nullable="false" />
+    <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ProgrammingLanguageID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ProgrammingLanguage" Relationship="Self.FK_SolutionReference_ProgrammingLanguage" FromRole="SolutionReference" ToRole="ProgrammingLanguage" />
+    <NavigationProperty Name="Task" Relationship="Self.FK_SolutionReference_Task" FromRole="SolutionReference" ToRole="Task" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Task">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Сomment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ThemeID" Type="Int32" Nullable="false" />
+    <Property Name="Difficulty" Type="Int32" />
+    <Property Name="AuthorID" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="DataForTestingID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Author" Relationship="Self.FK_Task_Author" FromRole="Task" ToRole="Author" />
+    <NavigationProperty Name="SolutionReference" Relationship="Self.FK_SolutionReference_Task" FromRole="Task" ToRole="SolutionReference" />
+    <NavigationProperty Name="Theme" Relationship="Self.FK_Task_Theme" FromRole="Task" ToRole="Theme" />
+    <NavigationProperty Name="DataForTesting" Relationship="Self.DataForTestingTask" FromRole="Task" ToRole="DataForTesting" />
+  </EntityType>
+  <EntityType Name="Theme">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Parent" Type="Int32" />
+    <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Task" Relationship="Self.FK_Task_Theme" FromRole="Theme" ToRole="Task" />
+    <NavigationProperty Name="Theme1" Relationship="Self.FK_Theme_Theme" FromRole="Theme" ToRole="Theme1" />
+    <NavigationProperty Name="Theme2" Relationship="Self.FK_Theme_Theme" FromRole="Theme1" ToRole="Theme" />
+  </EntityType>
+  <Association Name="FK_Task_Author">
+    <End Role="Author" Type="Self.Author" Multiplicity="1" />
+    <End Role="Task" Type="Self.Task" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Author">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Task">
+        <PropertyRef Name="AuthorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SolutionReference_ProgrammingLanguage">
+    <End Role="ProgrammingLanguage" Type="Self.ProgrammingLanguage" Multiplicity="1" />
+    <End Role="SolutionReference" Type="Self.SolutionReference" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProgrammingLanguage">
+        <PropertyRef Name="DI" />
+      </Principal>
+      <Dependent Role="SolutionReference">
+        <PropertyRef Name="ProgrammingLanguageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SolutionReference_Task">
+    <End Role="Task" Type="Self.Task" Multiplicity="1" />
+    <End Role="SolutionReference" Type="Self.SolutionReference" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Task">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SolutionReference">
+        <PropertyRef Name="TaskID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Task_Theme">
+    <End Role="Theme" Type="Self.Theme" Multiplicity="1" />
+    <End Role="Task" Type="Self.Task" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Theme">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Task">
+        <PropertyRef Name="ThemeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Theme_Theme">
+    <End Role="Theme" Type="Self.Theme" Multiplicity="0..1" />
+    <End Role="Theme1" Type="Self.Theme" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Theme">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Theme1">
+        <PropertyRef Name="Parent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DataForTestingTask">
+    <End Role="DataForTesting" Type="Self.DataForTesting" Multiplicity="*" />
+    <End Role="Task" Type="Self.Task" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="ProgrammingTasksDBEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Author" EntityType="Self.Author" />
+    <EntitySet Name="DataForTesting" EntityType="Self.DataForTesting" />
+    <EntitySet Name="ProgrammingLanguage" EntityType="Self.ProgrammingLanguage" />
+    <EntitySet Name="SolutionReference" EntityType="Self.SolutionReference" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Task" EntityType="Self.Task" />
+    <EntitySet Name="Theme" EntityType="Self.Theme" />
+    <AssociationSet Name="FK_Task_Author" Association="Self.FK_Task_Author">
+      <End Role="Author" EntitySet="Author" />
+      <End Role="Task" EntitySet="Task" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SolutionReference_ProgrammingLanguage" Association="Self.FK_SolutionReference_ProgrammingLanguage">
+      <End Role="ProgrammingLanguage" EntitySet="ProgrammingLanguage" />
+      <End Role="SolutionReference" EntitySet="SolutionReference" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SolutionReference_Task" Association="Self.FK_SolutionReference_Task">
+      <End Role="Task" EntitySet="Task" />
+      <End Role="SolutionReference" EntitySet="SolutionReference" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Task_Theme" Association="Self.FK_Task_Theme">
+      <End Role="Theme" EntitySet="Theme" />
+      <End Role="Task" EntitySet="Task" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Theme_Theme" Association="Self.FK_Theme_Theme">
+      <End Role="Theme" EntitySet="Theme" />
+      <End Role="Theme1" EntitySet="Theme" />
+    </AssociationSet>
+    <AssociationSet Name="DataForTestingTask" Association="Self.DataForTestingTask">
+      <End Role="DataForTesting" EntitySet="DataForTesting" />
+      <End Role="Task" EntitySet="Task" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

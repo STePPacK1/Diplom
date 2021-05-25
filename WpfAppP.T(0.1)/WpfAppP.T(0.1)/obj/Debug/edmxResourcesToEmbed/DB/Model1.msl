@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище ProgrammingTasksDBModelContainer" CdmEntityContainer="ProgrammingTasksDBEntities">
+    <EntitySetMapping Name="Author">
+      <EntityTypeMapping TypeName="ProgrammingTasksDBModel.Author">
+        <MappingFragment StoreEntitySet="Author">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+          <ScalarProperty Name="HeldPost" ColumnName="HeldPost" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DataForTesting">
+      <EntityTypeMapping TypeName="ProgrammingTasksDBModel.DataForTesting">
+        <MappingFragment StoreEntitySet="DataForTesting">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="InputData" ColumnName="InputData" />
+          <ScalarProperty Name="OutputData" ColumnName="OutputData" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProgrammingLanguage">
+      <EntityTypeMapping TypeName="ProgrammingTasksDBModel.ProgrammingLanguage">
+        <MappingFragment StoreEntitySet="ProgrammingLanguage">
+          <ScalarProperty Name="DI" ColumnName="DI" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SolutionReference">
+      <EntityTypeMapping TypeName="ProgrammingTasksDBModel.SolutionReference">
+        <MappingFragment StoreEntitySet="SolutionReference">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="ProgrammingLanguageID" ColumnName="ProgrammingLanguageID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="ProgrammingTasksDBModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Task">
+      <EntityTypeMapping TypeName="ProgrammingTasksDBModel.Task">
+        <MappingFragment StoreEntitySet="Task">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="Сomment" ColumnName="Сomment" />
+          <ScalarProperty Name="ThemeID" ColumnName="ThemeID" />
+          <ScalarProperty Name="Difficulty" ColumnName="Difficulty" />
+          <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="DataForTestingID" ColumnName="DataForTestingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Theme">
+      <EntityTypeMapping TypeName="ProgrammingTasksDBModel.Theme">
+        <MappingFragment StoreEntitySet="Theme">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Parent" ColumnName="Parent" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="DataForTestingTask" TypeName="ProgrammingTasksDBModel.DataForTestingTask" StoreEntitySet="DataForTestingTask">
+      <EndProperty Name="DataForTesting">
+        <ScalarProperty Name="ID" ColumnName="DataForTestingID" />
+      </EndProperty>
+      <EndProperty Name="Task">
+        <ScalarProperty Name="ID" ColumnName="TaskID" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>
